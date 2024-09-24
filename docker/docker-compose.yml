@@ -1,0 +1,35 @@
+services:
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ../prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    network_mode: "host"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.listen-address=:9099'
+    depends_on:
+      - grafana
+      - validator-exporter
+
+  grafana:
+    image: grafana/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - ../grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ../grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ../grafana/dashboards:/var/lib/grafana/dashboards
+    network_mode: "host"
+
+  validator-exporter:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    environment:
+      - CHAIN_ID=${CHAIN_ID}
+      - VALOPER=${VALOPER}
+      - REST_ENDPOINT=${REST_ENDPOINT}
+    network_mode: "host"

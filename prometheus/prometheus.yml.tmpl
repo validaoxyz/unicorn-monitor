@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'unicorn-testnet'
+    static_configs:
+      - targets:
+        - '${INSTANCE_IP}:${NODE_EXPORTER_PORT}'
+        - '${INSTANCE_IP}:${COSMOS_EXPORTER_PORT}'
+        - 'localhost:9300'
+        #- 'host.docker.internal:${NODE_EXPORTER_PORT}'
+        #- 'host.docker.internal:${COSMOS_EXPORTER_PORT}'

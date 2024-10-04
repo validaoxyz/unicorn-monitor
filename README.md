@@ -110,13 +110,13 @@ sudo systemctl start node-exporter
    Grafana will be available on port 3000. To access it:
    To access your dashboard:
      - Ensure your firewall allows port `3000`
-     - Visit http://<your-ip>:3000 and log in using credentials from your .env file.
+     - Visit `http://<your-ip>:3000` and log in using credentials from your `.env` file.
 
 ## Configuration
 
-- **Grafana Dashboards**: Located in grafana/dashboards/.
-- **Prometheus Configuration**: Files located in prometheus/.
-- **Exporter Code**: Located in exporter/.
+- **Grafana Dashboards**: Located in [grafana/dashboards/](grafana/dashboards).
+- **Prometheus Configuration**: Files located in [prometheus/](prometheus/).
+- **Exporter Code**: Located in [exporter/](exporter).
 
 ## Contributing
 

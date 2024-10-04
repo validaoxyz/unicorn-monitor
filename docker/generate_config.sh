@@ -2,7 +2,7 @@
 
 # Load environment variables from .env file
 set -a
-source ../docker/.env
+source .env
 set +a
 
 # Substitute variables in prometheus.yml.tmpl and save as prometheus.yml

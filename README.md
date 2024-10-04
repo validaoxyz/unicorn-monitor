@@ -1,7 +1,6 @@
 # Unicorn Monitoring
 
-A professional monitoring setup for Unicorn using Prometheus, Grafana, and a custom consensus metric exporter. UwU.
-
+A monitoring solution for Unicorn validators using Prometheus, Grafana, and a custom consensus metrics exporter.
 
 ## Features
 
@@ -11,46 +10,48 @@ A professional monitoring setup for Unicorn using Prometheus, Grafana, and a cus
 
 ## Prerequisites
 
-On the machine where you will be running the grafana+prometheus monitoring setup:
+Ensure the following are installed on the machine running the Grafana + Prometheus stack:
 
 - Docker
 - Docker Compose
 
-To install:
+Install with:
 
 ```bash
 sudo apt install -y docker docker-compose
 ```
+## Installation
+### 1. Enable Required Services
 
-On the machine that will be monitored (this can be the same machine), ensure that:
+On the machine to be monitored (this could be the same as your Prometheus server), ensure the Prometheus exporter and REST API server are listening on ports 26660 and 1317, respectively:
 
-- you have `node-exporter` installed and running
-- port `:26660` open on your `unicornd` binary
-- [if the machine that will be monitored and the machine running the monitoring stack are different] ports `26660` and `9100` are accessible from your monitoring server
-
-**To ensure that port `:26660` is opened:**
 
 ```bash
+# Modify prometheus settings in config.toml
 sed -i '/^prometheus[[:space:]]*=/c\prometheus = true' ~/.unicornd/config/config.toml && \
-sed -i '/^prometheus-listen-addr[[:space:]]*=/c\prometheus-listen-addr = ":26660"' ~/.unicornd/config/config.toml
+sed -i '/^prometheus-listen-addr[[:space:]]*=/c\prometheus-listen-addr = ":26660"' ~/.unicornd/config/config.toml && \
+
+# Modify API settings in app.toml
+sed -i '/^enable[[:space:]]*=/c\enable = true' ~/.unicornd/config/app.toml && \
+sed -i '/^swagger[[:space:]]*=/c\swagger = false' ~/.unicornd/config/app.toml && \
+sed -i '/^address[[:space:]]*=/c\address = "tcp://0.0.0.0:1317"' ~/.unicornd/config/app.toml
 ```
 
-You'll then need to restart your `unicornd` process. If you're running `unicornd` as a `systemd` service:
+Restart the unicornd service:
+
 ```bash
 sudo systemctl restart unicornd.service
 ```
 
-Otherwise, restart the process according to your setup.
+Alternatively, restart the unicornd process based on your setup.
 
-**To install node exporter:**
-Install `node-exporter`
+### 2. Install Node Exporter
+Install Node Exporter to gather machine-level metrics:
 ```bash
-cd /tmp
-wget https://github.com/prometheus/node_exporter/releases/download/v1.6.1/node_exporter-1.6.1.linux-amd64.tar.gz
-sudo tar xvfz node_exporter-1.6.1.linux-amd64.tar.gz -C /usr/local/bin
-cd ~/
+curl -L https://github.com/prometheus/node_exporter/releases/download/v1.6.1/node_exporter-1.6.1.linux-amd64.tar.gz | sudo tar xvz -C /usr/local/bin --strip-components=1
 ```
-Set up `systemd` as a process manager:
+
+Configure Node Exporter as a systemd service:
 ```bash
 sudo tee /etc/systemd/system/node-exporter.service > /dev/null <<EOF
 [Unit]
@@ -65,26 +66,29 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 EOF
-
+```
+Reload systemd configuration and start `node-exporter`:
+```bash
 sudo systemctl daemon-reload
 sudo systemctl enable node-exporter
 sudo systemctl start node-exporter
 ```
 
-## Installation
+### 3. Setting up Grafana and Prometheus
+
 
 1. **Clone the repository:**
 
    ```bash
    git clone https://github.com/yourusername/unicorn-monitoring.git
-   cd unicorn-monitoring
+   cd unicorn-monitoring/docker
    ```
 2. **Set up environment variables:**
 
-   Copy `.env.example` to `.env` and fill in the required values
+   Copy `.env.sample` to `.env` and fill in the required values
 
    ```bash
-   cp .env.example .env
+   cp .env.sample .env
    ```
 
    Edit `.env`:
@@ -97,29 +101,24 @@ sudo systemctl start node-exporter
 3. **Build and start the containers:**
 
    ```bash
-   cd docker
+   bash generate-config.sh
    docker-compose up -d
    ```
 
 4. **Access the services**:
 
-   Grafana will now be running on port `:3000` on the server where you just did the above!
+   Grafana will be available on port 3000. To access it:
    To access your dashboard:
-     - figure out your public IP
-     - ensure that port `3000` is accessible to you on the firewall level
-     - finally visit `http://<your-ip>:3000` and sign in with the credentials specified in your `.env` file in step 1)
-
+     - Ensure your firewall allows port `3000`
+     - Visit http://<your-ip>:3000 and log in using credentials from your .env file.
 
 ## Configuration
-* Grafana Dashboards:
-  Dashboards are located in `grafana/dashboards/`
 
-* Prometheus Configuration:
-  Prometheus configuration files are in `prometheus/`
-
-* Exporter:
-  The exporter code is in `exporter/`
+- **Grafana Dashboards**: Located in grafana/dashboards/.
+- **Prometheus Configuration**: Files located in prometheus/.
+- **Exporter Code**: Located in exporter/.
 
 ## Contributing
 
 Contributions are welcome! Please submit a pull request or open an issue on GitHub.
+

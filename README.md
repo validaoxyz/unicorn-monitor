@@ -128,7 +128,7 @@ sudo systemctl start node-exporter
 
 4. **Access the services**:
 
-   Grafana will be available on port 3000. To access it:
+   Grafana will be available on port `3000`.
    To access your dashboard:
      - Ensure your firewall allows port `3000`
      - Visit `http://<your-ip>:3000` and log in using credentials from your `.env` file.

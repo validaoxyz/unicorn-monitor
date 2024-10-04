@@ -99,8 +99,8 @@ sudo systemctl start node-exporter
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/validaoxyz/unicorn-monitoring.git
-   cd unicorn-monitoring/docker
+   git clone https://github.com/validaoxyz/uwu-mon.git
+   cd uwu-mon/docker
    ```
 2. **Set up environment variables:**
 

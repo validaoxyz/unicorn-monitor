@@ -1,5 +1,5 @@
 ```
-uwu                                                                                           uwu
+uwu                                                                                         uwu
                    ██╗   ██╗██╗    ██╗██╗   ██╗      ███╗   ███╗ ██████╗ ███╗   ██╗
                    ██║   ██║██║    ██║██║   ██║      ████╗ ████║██╔═══██╗████╗  ██║
                    ██║   ██║██║ █╗ ██║██║   ██║█████╗██╔████╔██║██║   ██║██╔██╗ ██║
@@ -19,7 +19,7 @@ uwu                                                                             
                                                   \         \*=~-"
                                                    \         "=====----
                                                     \
-uwu                                                  \                                        uwu
+uwu                                                  \                                      uwu
 ```
 A monitoring solution for Unicorn validators using Prometheus, Grafana, and a custom consensus metrics exporter.
 

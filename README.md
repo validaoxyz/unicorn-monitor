@@ -1,5 +1,5 @@
 ```
-
+uwu                                                                                      uwu
                    ██╗   ██╗██╗    ██╗██╗   ██╗      ███╗   ███╗ ██████╗ ███╗   ██╗
                    ██║   ██║██║    ██║██║   ██║      ████╗ ████║██╔═══██╗████╗  ██║
                    ██║   ██║██║ █╗ ██║██║   ██║█████╗██╔████╔██║██║   ██║██╔██╗ ██║
@@ -19,7 +19,7 @@
                                                   \         \*=~-"
                                                    \         "=====----
                                                     \
-                                                     \
+uwu                                                  \                                   uwu
 ```
 A monitoring solution for Unicorn validators using Prometheus, Grafana, and a custom consensus metrics exporter.
 
@@ -54,7 +54,6 @@ sed -i '/^prometheus-listen-addr[[:space:]]*=/c\prometheus-listen-addr = ":26660
 
 # Modify API settings in app.toml
 sed -i '/^enable[[:space:]]*=/c\enable = true' ~/.unicornd/config/app.toml && \
-sed -i '/^swagger[[:space:]]*=/c\swagger = false' ~/.unicornd/config/app.toml && \
 sed -i '/^address[[:space:]]*=/c\address = "tcp://0.0.0.0:1317"' ~/.unicornd/config/app.toml
 ```
 

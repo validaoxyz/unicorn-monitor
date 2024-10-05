@@ -13,7 +13,7 @@ import sys
 
 # Configuration
 CHAIN_ID = os.getenv('CHAIN_ID', 'unicorn-testnet')
-VALOPER = os.getenv('VALOPER', 'unicornvaloper1tqrdhpymzqr085c9s29hxjvhmgglglmeavhjuj')
+VALOPER = os.getenv('VALOPER')
 REST_ENDPOINT = os.getenv('REST_ENDPOINT', 'https://rest.testcorn-69.unicorn.meme')
 
 # Metrics
